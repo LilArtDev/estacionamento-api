@@ -1,6 +1,8 @@
 using EstacionamentoAPI.Data;
 using EstacionamentoAPI.Repositories;
 using EstacionamentoAPI.Repositories.Interfaces;
+using EstacionamentoAPI.Services;
+using EstacionamentoAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,8 +17,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IEstabelecimentoRepository, EstabelecimentoRepository>();
 builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
-// builder.Services.AddScoped<IEstabelecimentoService, EstabelecimentoService>();
-// builder.Services.AddScoped<IVeiculoService, VeiculoService>();
+builder.Services.AddScoped<IEstabelecimentoService, EstabelecimentoService>();
+builder.Services.AddScoped<IVeiculoService, VeiculoService>();
 
 var app = builder.Build();
 
