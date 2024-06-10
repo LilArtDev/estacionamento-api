@@ -1,6 +1,7 @@
 using EstacionamentoAPI.Models;
 using EstacionamentoAPI.Repositories.Interfaces;
 using EstacionamentoAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EstacionamentoAPI.Services
 {
@@ -20,7 +21,11 @@ namespace EstacionamentoAPI.Services
 
         public async Task<Estabelecimento> GetByIdAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            var estabelecimento = await _repository.GetByIdAsync(id);
+
+            if (estabelecimento == null) throw new KeyNotFoundException("Estabelecimento não encontrado");
+
+            return estabelecimento;
         }
 
         public async Task AddAsync(Estabelecimento estabelecimento)
@@ -28,13 +33,23 @@ namespace EstacionamentoAPI.Services
             await _repository.AddAsync(estabelecimento);
         }
 
-        public async Task UpdateAsync(Estabelecimento estabelecimento)
+        public async Task UpdateAsync(int id, Estabelecimento estabelecimentoAtualizado)
         {
-            await _repository.UpdateAsync(estabelecimento);
+            var estabelecimento = await _repository.GetByIdAsync(id);
+
+            if (estabelecimento == null) throw new KeyNotFoundException("Estabelecimento não encontrado");
+
+            if (estabelecimento.Equals(estabelecimentoAtualizado)) throw new BadHttpRequestException("Nenhuma alteração realizada");
+
+            await _repository.UpdateAsync(estabelecimentoAtualizado);
         }
 
         public async Task DeleteAsync(int id)
         {
+            var estabelecimento = await _repository.GetByIdAsync(id);
+
+            if (estabelecimento == null) throw new KeyNotFoundException("Estabelecimento não encontrado");
+
             await _repository.DeleteAsync(id);
         }
     }

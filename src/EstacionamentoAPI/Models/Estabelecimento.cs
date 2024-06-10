@@ -8,16 +8,16 @@ namespace EstacionamentoAPI.Models
         public int Id { get; set; }
 
         [Required]
-        public string Nome { get; set; }
+        public required string Nome { get; set; }
 
         [Required]
-        public string Cnpj { get; set; }
+        public required string Cnpj { get; set; }
 
         [Required]
-        public string Endereco { get; set; }
+        public required string Endereco { get; set; }
 
         [Required]
-        public string Telefone { get; set; }
+        public required string Telefone { get; set; }
 
         [Required]
         public int VagasMotos { get; set; }
