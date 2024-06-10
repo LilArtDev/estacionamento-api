@@ -1,0 +1,20 @@
+# Compiled binary
+/bin/
+/obj/
+/out/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Auto-generated files
+*.vs
+.vscode
+.vscode-test
+
+# Build folders
+[Bb]in/
+[Oo]bj/
