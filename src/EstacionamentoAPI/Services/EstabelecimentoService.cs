@@ -1,7 +1,6 @@
 using EstacionamentoAPI.Models;
 using EstacionamentoAPI.Repositories.Interfaces;
 using EstacionamentoAPI.Services.Interfaces;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EstacionamentoAPI.Services
 {
@@ -51,6 +50,14 @@ namespace EstacionamentoAPI.Services
             if (estabelecimento == null) throw new KeyNotFoundException("Estabelecimento não encontrado");
 
             await _repository.DeleteAsync(id);
+        }
+
+
+        public async Task<bool> CheckEstabelecimentoExistsByIdAsync(int id)
+        {
+            var estabelecimento = await _repository.GetByIdAsync(id);
+
+            return estabelecimento != null;
         }
     }
 }

@@ -37,5 +37,12 @@ namespace EstacionamentoAPI.Services
         {
             await _repository.DeleteAsync(id);
         }
+
+        public async Task<bool> CheckVeiculoExistsByIdAsync(int id)
+        {
+            var veiculo = await _repository.GetByIdAsync(id);
+
+            return veiculo != null;
+        }
     }
 }

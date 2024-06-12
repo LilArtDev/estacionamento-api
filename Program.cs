@@ -4,7 +4,6 @@ using EstacionamentoAPI.Repositories.Interfaces;
 using EstacionamentoAPI.Services;
 using EstacionamentoAPI.Services.Interfaces;
 using EstacionamentoAPI.Shared;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -31,8 +30,10 @@ builder.Services.AddControllers()
 
 builder.Services.AddScoped<IEstabelecimentoRepository, EstabelecimentoRepository>();
 builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
+builder.Services.AddScoped<IRegistroMovimentacaoRepository, RegistroMovimentacaoRepository>();
 builder.Services.AddScoped<IEstabelecimentoService, EstabelecimentoService>();
 builder.Services.AddScoped<IVeiculoService, VeiculoService>();
+builder.Services.AddScoped<IRegistroMovimentacaoService, RegistroMovimentacaoService>();
 
 var app = builder.Build();
 
@@ -45,9 +46,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthorization();
-
-app.UseMiddleware<ValidationMiddleware>();
-
 
 app.MapControllers();
 

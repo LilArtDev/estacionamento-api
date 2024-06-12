@@ -9,5 +9,7 @@ namespace EstacionamentoAPI.Services.Interfaces
         Task AddAsync(Veiculo veiculo);
         Task UpdateAsync(Veiculo veiculo);
         Task DeleteAsync(int id);
+
+        Task<bool> CheckVeiculoExistsByIdAsync(int veiculoId);
     }
 }

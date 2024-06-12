@@ -9,6 +9,7 @@ namespace EstacionamentoAPI.Data
 
         public DbSet<Estabelecimento> Estabelecimentos { get; set; }
         public DbSet<Veiculo> Veiculos { get; set; }
+        public DbSet<RegistroMovimentacao> RegistroMovimentacao { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -9,5 +9,7 @@ namespace EstacionamentoAPI.Services.Interfaces
         Task AddAsync(Estabelecimento estabelecimento);
         Task UpdateAsync(int id, Estabelecimento estabelecimento);
         Task DeleteAsync(int id);
+
+        Task<bool> CheckEstabelecimentoExistsByIdAsync(int id);
     }
 }
