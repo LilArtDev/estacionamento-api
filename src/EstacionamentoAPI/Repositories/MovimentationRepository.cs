@@ -14,46 +14,46 @@ namespace EstacionamentoAPI.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Movimentation>> GetAllAsync()
+        public async Task<IEnumerable<Movimentations>> GetAllAsync()
         {
-            return await _context.Movimentation.ToListAsync();
+            return await _context.Movimentations.ToListAsync();
         }
-        public async Task<IEnumerable<Movimentation>> GetAllAsync(int id)
+        public async Task<IEnumerable<Movimentations>> GetAllAsync(int id)
         {
-            return await _context.Movimentation.ToListAsync();
+            return await _context.Movimentations.ToListAsync();
         }
-        public async Task<IEnumerable<Movimentation>> GetByVehicleIdAsync(int vehicleId)
+        public async Task<IEnumerable<Movimentations>> GetByVehicleIdAsync(int vehicleId)
         {
-            return await _context.Movimentation.Where(movimentation => movimentation.VehicleId.Equals(vehicleId)).ToListAsync();
+            return await _context.Movimentations.Where(Movimentations => Movimentations.VehicleId.Equals(vehicleId)).ToListAsync();
         }
-        public async Task<IEnumerable<Movimentation>> GetByEstablishmentIdAsync(int movimentationId)
+        public async Task<IEnumerable<Movimentations>> GetByEstablishmentIdAsync(int movimentationId)
         {
-            return await _context.Movimentation.Where(movimentation => movimentation.EstablishmentId.Equals(movimentationId)).ToListAsync();
-        }
-
-        public async Task<Movimentation> GetByIdAsync(int id)
-        {
-            return await _context.Movimentation.FindAsync(id);
+            return await _context.Movimentations.Where(Movimentations => Movimentations.EstablishmentId.Equals(movimentationId)).ToListAsync();
         }
 
-        public async Task AddAsync(Movimentation movimentation)
+        public async Task<Movimentations> GetByIdAsync(int id)
         {
-            await _context.Movimentation.AddAsync(movimentation);
+            return await _context.Movimentations.FindAsync(id);
+        }
+
+        public async Task AddAsync(Movimentations Movimentations)
+        {
+            await _context.Movimentations.AddAsync(Movimentations);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Movimentation movimentation)
+        public async Task UpdateAsync(Movimentations Movimentations)
         {
-            _context.Movimentation.Update(movimentation);
+            _context.Movimentations.Update(Movimentations);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
-            var movimentation = await _context.Movimentation.FindAsync(id);
-            if (movimentation != null)
+            var Movimentations = await _context.Movimentations.FindAsync(id);
+            if (Movimentations != null)
             {
-                _context.Movimentation.Remove(movimentation);
+                _context.Movimentations.Remove(Movimentations);
                 await _context.SaveChangesAsync();
             }
         }

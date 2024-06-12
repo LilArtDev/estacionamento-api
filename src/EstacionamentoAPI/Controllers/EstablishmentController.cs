@@ -7,7 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace EstacionamentoAPI.Controllers
 {
     [ApiController]
-    [Route("api/establishment")]
+    [Route("api/establishments")]
     public class EstablishmentsController : ControllerBase
     {
         private readonly IEstablishmentService _service;

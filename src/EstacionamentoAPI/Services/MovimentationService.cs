@@ -17,11 +17,11 @@ namespace EstacionamentoAPI.Services
             _vehicleService = vehicleService;
         }
 
-        public async Task<IEnumerable<Movimentation>> GetAllAsync()
+        public async Task<IEnumerable<Movimentations>> GetAllAsync()
         {
             return await _repository.GetAllAsync();
         }
-        public async Task<IEnumerable<Movimentation>> GetByEstablishmentIdAsync(int establishmentId)
+        public async Task<IEnumerable<Movimentations>> GetByEstablishmentIdAsync(int establishmentId)
         {
             var doesEstablishmentExists = await _establishmentService.CheckEstablishmentExistsByIdAsync(establishmentId);
             if (!doesEstablishmentExists) throw new BadHttpRequestException("O Establishment não existe");
@@ -29,7 +29,7 @@ namespace EstacionamentoAPI.Services
             return await _repository.GetByEstablishmentIdAsync(establishmentId);
         }
 
-        public async Task<IEnumerable<Movimentation>> GetByVehicleIdAsync(int vehicleId)
+        public async Task<IEnumerable<Movimentations>> GetByVehicleIdAsync(int vehicleId)
         {
 
             var doesVehicleExists = await _vehicleService.CheckVehicleExistsByIdAsync(vehicleId);
@@ -37,26 +37,26 @@ namespace EstacionamentoAPI.Services
             return await _repository.GetByVehicleIdAsync(vehicleId);
         }
 
-        public async Task<Movimentation> GetByIdAsync(int id)
+        public async Task<Movimentations> GetByIdAsync(int id)
         {
             return await _repository.GetByIdAsync(id);
         }
 
 
-        public async Task AddAsync(Movimentation movimentation)
+        public async Task AddAsync(Movimentations Movimentations)
         {
-            var movimentacaoError = await _validateMovimentation(movimentation);
+            var movimentacaoError = await _validateMovimentation(Movimentations);
             if (movimentacaoError != null) throw movimentacaoError;
 
-            await _repository.AddAsync(movimentation);
+            await _repository.AddAsync(Movimentations);
         }
 
-        public async Task UpdateAsync(Movimentation movimentation)
+        public async Task UpdateAsync(Movimentations Movimentations)
         {
-            var movimentacaoError = await _validateMovimentation(movimentation);
+            var movimentacaoError = await _validateMovimentation(Movimentations);
             if (movimentacaoError != null) throw movimentacaoError;
 
-            await _repository.UpdateAsync(movimentation);
+            await _repository.UpdateAsync(Movimentations);
         }
 
         public async Task DeleteAsync(int id)
@@ -65,14 +65,14 @@ namespace EstacionamentoAPI.Services
         }
 
 
-        private async Task<BadHttpRequestException?> _validateMovimentation(Movimentation movimentation)
+        private async Task<BadHttpRequestException?> _validateMovimentation(Movimentations Movimentations)
         {
             string? badRequestmessage = null;
 
-            var doesVehicleExists = await _vehicleService.CheckVehicleExistsByIdAsync(movimentation.VehicleId);
+            var doesVehicleExists = await _vehicleService.CheckVehicleExistsByIdAsync(Movimentations.VehicleId);
             if (!doesVehicleExists) badRequestmessage = "O Veículo não existe";
 
-            var doesEstablishmentExists = await _establishmentService.CheckEstablishmentExistsByIdAsync(movimentation.EstablishmentId);
+            var doesEstablishmentExists = await _establishmentService.CheckEstablishmentExistsByIdAsync(Movimentations.EstablishmentId);
             if (!doesEstablishmentExists) badRequestmessage = "O Estabelecimento não existe";
 
             if (badRequestmessage != null)

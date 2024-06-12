@@ -26,113 +26,138 @@ namespace estacionamento_api.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("address");
 
                     b.Property<int>("CarSpaces")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("car_spaces");
 
                     b.Property<string>("Document")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("document");
 
                     b.Property<int>("MotorcycleSpaces")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("motorcycle_spaces");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<string>("Telephone")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("telephone");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_tb_establishments");
 
-                    b.ToTable("Establishments");
+                    b.ToTable("tb_establishments");
                 });
 
-            modelBuilder.Entity("EstacionamentoAPI.Models.Movimentation", b =>
+            modelBuilder.Entity("EstacionamentoAPI.Models.Movimentations", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date_time");
 
                     b.Property<int>("EstablishmentId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("establishment_id");
 
                     b.Property<int>("Type")
                         .HasMaxLength(10)
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
                     b.Property<int>("VehicleId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("vehicle_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_tb_movimentations");
 
-                    b.HasIndex("EstablishmentId");
+                    b.HasIndex("EstablishmentId")
+                        .HasDatabaseName("ix_tb_movimentations_establishment_id");
 
-                    b.HasIndex("VehicleId");
+                    b.HasIndex("VehicleId")
+                        .HasDatabaseName("ix_tb_movimentations_vehicle_id");
 
-                    b.ToTable("Movimentation");
+                    b.ToTable("tb_movimentations");
                 });
 
             modelBuilder.Entity("EstacionamentoAPI.Models.Vehicle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Brand")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("brand");
 
                     b.Property<string>("Color")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("color");
 
                     b.Property<string>("LicensePlate")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("license_plate");
 
                     b.Property<string>("Model")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("model");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("type");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_tb_vehicles");
 
-                    b.ToTable("Vehicles");
+                    b.ToTable("tb_vehicles");
                 });
 
-            modelBuilder.Entity("EstacionamentoAPI.Models.Movimentation", b =>
+            modelBuilder.Entity("EstacionamentoAPI.Models.Movimentations", b =>
                 {
                     b.HasOne("EstacionamentoAPI.Models.Establishment", "Establishment")
                         .WithMany()
                         .HasForeignKey("EstablishmentId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_tb_movimentations_tb_establishments_establishment_id");
 
                     b.HasOne("EstacionamentoAPI.Models.Vehicle", "Vehicle")
                         .WithMany()
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_tb_movimentations_vehicles_vehicle_id");
 
                     b.Navigation("Establishment");
 

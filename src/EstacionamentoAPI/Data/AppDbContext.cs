@@ -1,5 +1,6 @@
 using EstacionamentoAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using EstacionamentoAPI.Data.Extensions;
 
 namespace EstacionamentoAPI.Data
 {
@@ -9,10 +10,12 @@ namespace EstacionamentoAPI.Data
 
         public DbSet<Establishment> Establishments { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
-        public DbSet<Movimentation> Movimentation { get; set; }
+        public DbSet<Movimentations> Movimentations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            ModelBuilderNamingExtension.UseCustomNamingConvention(modelBuilder);
+
             base.OnModelCreating(modelBuilder);
         }
     }

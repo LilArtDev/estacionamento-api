@@ -4,7 +4,7 @@ using EstacionamentoAPI.Shared;
 
 namespace EstacionamentoAPI.Models
 {
-    public class Movimentation
+    public class Movimentations
     {
         [Key]
         public int Id { get; set; }
