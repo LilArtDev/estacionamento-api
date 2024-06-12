@@ -10,9 +10,11 @@ namespace EstacionamentoAPI.Services
         private readonly IEstablishmentService _establishmentService;
         private readonly IVehicleService _vehicleService;
 
-        public MovimentationService(IMovimentationRepository repository)
+        public MovimentationService(IMovimentationRepository repository, IEstablishmentService establishmentService, IVehicleService vehicleService)
         {
             _repository = repository;
+            _establishmentService = establishmentService;
+            _vehicleService = vehicleService;
         }
 
         public async Task<IEnumerable<Movimentation>> GetAllAsync()
@@ -43,7 +45,7 @@ namespace EstacionamentoAPI.Services
 
         public async Task AddAsync(Movimentation movimentation)
         {
-            var movimentacaoError = await _validateMovimentacao(movimentation);
+            var movimentacaoError = await _validateMovimentation(movimentation);
             if (movimentacaoError != null) throw movimentacaoError;
 
             await _repository.AddAsync(movimentation);
@@ -51,7 +53,7 @@ namespace EstacionamentoAPI.Services
 
         public async Task UpdateAsync(Movimentation movimentation)
         {
-            var movimentacaoError = await _validateMovimentacao(movimentation);
+            var movimentacaoError = await _validateMovimentation(movimentation);
             if (movimentacaoError != null) throw movimentacaoError;
 
             await _repository.UpdateAsync(movimentation);
@@ -63,16 +65,21 @@ namespace EstacionamentoAPI.Services
         }
 
 
-        private async Task<BadHttpRequestException?> _validateMovimentacao(Movimentation movimentation)
+        private async Task<BadHttpRequestException?> _validateMovimentation(Movimentation movimentation)
         {
-            var doesVehicleExists = _vehicleService.CheckVehicleExistsByIdAsync(movimentation.VehicleId);
-            var doesEstablishmentExists = _establishmentService.CheckEstablishmentExistsByIdAsync(movimentation.EstablishmentId);
+            string? badRequestmessage = null;
 
-            await Task.WhenAll(doesVehicleExists, doesEstablishmentExists);
+            var doesVehicleExists = await _vehicleService.CheckVehicleExistsByIdAsync(movimentation.VehicleId);
+            if (!doesVehicleExists) badRequestmessage = "O Veículo não existe";
 
-            if (!await doesVehicleExists) return new BadHttpRequestException("O Vehicle não existe");
-            if (!await doesEstablishmentExists) return new BadHttpRequestException("O Establishment não existe");
-            return null;
+            var doesEstablishmentExists = await _establishmentService.CheckEstablishmentExistsByIdAsync(movimentation.EstablishmentId);
+            if (!doesEstablishmentExists) badRequestmessage = "O Estabelecimento não existe";
+
+            if (badRequestmessage != null)
+            {
+                return new BadHttpRequestException(badRequestmessage);
+            }
+            else return null;
         }
 
     }

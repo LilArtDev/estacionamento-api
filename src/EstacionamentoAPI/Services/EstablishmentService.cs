@@ -22,7 +22,7 @@ namespace EstacionamentoAPI.Services
         {
             var establishment = await _repository.GetByIdAsync(id);
 
-            if (establishment == null) throw new KeyNotFoundException("Establishment não encontrado");
+            if (establishment == null) throw new KeyNotFoundException("Estabelecimento não encontrado");
 
             return establishment;
         }
@@ -32,22 +32,22 @@ namespace EstacionamentoAPI.Services
             await _repository.AddAsync(establishment);
         }
 
-        public async Task UpdateAsync(int id, Establishment establishmentAtualizado)
+        public async Task UpdateAsync(int id, Establishment updatedEstablishment)
         {
             var establishment = await _repository.GetByIdAsync(id);
 
-            if (establishment == null) throw new KeyNotFoundException("Establishment não encontrado");
+            if (establishment == null) throw new KeyNotFoundException("Estabelecimento não encontrado");
 
-            if (establishment.Equals(establishmentAtualizado)) throw new BadHttpRequestException("Nenhuma alteração realizada");
+            if (establishment.Equals(updatedEstablishment)) throw new BadHttpRequestException("Nenhuma alteração realizada");
 
-            await _repository.UpdateAsync(establishmentAtualizado);
+            await _repository.UpdateAsync(updatedEstablishment);
         }
 
         public async Task DeleteAsync(int id)
         {
             var establishment = await _repository.GetByIdAsync(id);
 
-            if (establishment == null) throw new KeyNotFoundException("Establishment não encontrado");
+            if (establishment == null) throw new KeyNotFoundException("Estabelecimento não encontrado");
 
             await _repository.DeleteAsync(id);
         }

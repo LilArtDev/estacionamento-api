@@ -7,7 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace EstacionamentoAPI.Controllers
 {
     [ApiController]
-    [Route("api/establishments")]
+    [Route("api/establishment")]
     public class EstablishmentsController : ControllerBase
     {
         private readonly IEstablishmentService _service;
@@ -18,8 +18,8 @@ namespace EstacionamentoAPI.Controllers
         }
 
         [HttpGet]
-        [SwaggerOperation(Summary = "Obtém todos os establishments", Description = "Retorna uma lista de todos os establishments")]
-        [SwaggerResponse(200, "Lista de establishments", typeof(IEnumerable<Establishment>))]
+        [SwaggerOperation(Summary = "Obtém todos os estabelecimentos", Description = "Retorna uma lista de todos os estabelecimentos")]
+        [SwaggerResponse(200, "Lista de estabelecimentos", typeof(IEnumerable<Establishment>))]
         public async Task<ActionResult<IEnumerable<Establishment>>> GetAll()
         {
             var establishments = await _service.GetAllAsync();
@@ -27,10 +27,10 @@ namespace EstacionamentoAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        [SwaggerOperation(Summary = "Obtém um establishment pelo ID", Description = "Retorna os detalhes de um establishment específico")]
-        [SwaggerResponse(200, "Detalhes do establishment", typeof(Establishment))]
-        [SwaggerResponse(404, "Establishment não encontrado")]
-        public async Task<ActionResult<Establishment>> GetById(int id)
+        [SwaggerOperation(Summary = "Obtém um estabelecimento pelo ID", Description = "Retorna os detalhes de um estabelecimento específico")]
+        [SwaggerResponse(200, "Detalhes do estabelecimento", typeof(Establishment))]
+        [SwaggerResponse(404, "Estabelecimento não encontrado")]
+        public async Task<ActionResult<Establishment>> GetById([FromRoute] int id)
         {
             try
             {
@@ -46,8 +46,8 @@ namespace EstacionamentoAPI.Controllers
         }
 
         [HttpPost]
-        [SwaggerOperation(Summary = "Adiciona um novo establishment", Description = "Cria um novo establishment com base nos dados fornecidos")]
-        [SwaggerResponse(201, "Establishment criado com sucesso", typeof(Establishment))]
+        [SwaggerOperation(Summary = "Adiciona um novo estabelecimento", Description = "Cria um novo estabelecimento com base nos dados fornecidos")]
+        [SwaggerResponse(201, "Estabelecimento criado com sucesso", typeof(Establishment))]
         public async Task<ActionResult> Add(EstablishmentDTO establishmentDto)
         {
             if (!ModelState.IsValid)
@@ -70,15 +70,15 @@ namespace EstacionamentoAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        [SwaggerOperation(Summary = "Atualiza um establishment", Description = "Atualiza os dados de um establishment existente")]
-        [SwaggerResponse(204, "Establishment atualizado com sucesso")]
+        [SwaggerOperation(Summary = "Atualiza um estabelecimento", Description = "Atualiza os dados de um estabelecimento existente")]
+        [SwaggerResponse(204, "Estabelecimento atualizado com sucesso")]
         public async Task<ActionResult> Update(int id, EstablishmentDTO establishmentDto)
         {
             try
             {
                 if (!ModelState.IsValid) return BadRequest(new { message = "Dados incorretos!" });
 
-                var establishmentAtualizado = new Establishment
+                var updatedEstablishment = new Establishment
                 {
                     Name = establishmentDto.Name,
                     Document = establishmentDto.Document,
@@ -88,7 +88,7 @@ namespace EstacionamentoAPI.Controllers
                     CarSpaces = establishmentDto.CarSpaces
                 };
 
-                await _service.UpdateAsync(id, establishmentAtualizado);
+                await _service.UpdateAsync(id, updatedEstablishment);
                 return Ok(new { message = "Dados atualizados com sucesso!" });
             }
             catch (KeyNotFoundException error)
@@ -103,15 +103,15 @@ namespace EstacionamentoAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        [SwaggerOperation(Summary = "Remove um establishment", Description = "Remove um establishment pelo ID")]
-        [SwaggerResponse(204, "Establishment removido com sucesso")]
-        [SwaggerResponse(404, "Establishment não encontrado")]
+        [SwaggerOperation(Summary = "Remove um estabelecimento", Description = "Remove um estabelecimento pelo ID")]
+        [SwaggerResponse(204, "Estabelecimento removido com sucesso")]
+        [SwaggerResponse(404, "Estabelecimento não encontrado")]
         public async Task<ActionResult> Delete(int id)
         {
             try
             {
                 await _service.DeleteAsync(id);
-                return Ok(new { message = "Establishment deletado com sucesso!" });
+                return Ok(new { message = "Estabelecimento deletado com sucesso!" });
 
             }
             catch (KeyNotFoundException error)

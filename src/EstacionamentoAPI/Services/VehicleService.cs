@@ -28,8 +28,15 @@ namespace EstacionamentoAPI.Services
             await _repository.AddAsync(vehicle);
         }
 
-        public async Task UpdateAsync(Vehicle vehicle)
+        public async Task UpdateAsync(int id, Vehicle updatedVehicle)
         {
+            var vehicle = await _repository.GetByIdAsync(id);
+
+            if (vehicle == null) throw new KeyNotFoundException("Veículo não encontrado");
+
+            if (vehicle.Equals(updatedVehicle)) throw new BadHttpRequestException("Nenhuma alteração realizada");
+
+
             await _repository.UpdateAsync(vehicle);
         }
 
@@ -41,7 +48,6 @@ namespace EstacionamentoAPI.Services
         public async Task<bool> CheckVehicleExistsByIdAsync(int id)
         {
             var vehicle = await _repository.GetByIdAsync(id);
-
             return vehicle != null;
         }
     }

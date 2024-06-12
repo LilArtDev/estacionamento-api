@@ -3,13 +3,11 @@ using EstacionamentoAPI.Models;
 using EstacionamentoAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EstacionamentoAPI.Controllers
 {
     [ApiController]
-    [Route("api/movimentacao")]
+    [Route("api/movimentation")]
     public class MovimentationController : ControllerBase
     {
         private readonly IMovimentationService _service;
@@ -45,12 +43,10 @@ namespace EstacionamentoAPI.Controllers
         [HttpPost]
         [SwaggerOperation(Summary = "Adiciona um novo registro de movimentação", Description = "Cria um novo registro de movimentação com base nos dados fornecidos")]
         [SwaggerResponse(201, "Registro de movimentação criado com sucesso", typeof(Movimentation))]
-        [SwaggerResponse(400, "Dados inválidos")]
         public async Task<ActionResult> Add([FromBody] MovimentationDTO movimentationDto)
         {
             try
             {
-
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -79,8 +75,7 @@ namespace EstacionamentoAPI.Controllers
 
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Atualiza um registro de movimentação", Description = "Atualiza os dados de um registro de movimentação existente")]
-        [SwaggerResponse(204, "Registro de movimentação atualizado com sucesso")]
-        [SwaggerResponse(400, "Dados inválidos")]
+        [SwaggerResponse(200, "Registro de movimentação atualizado com sucesso")]
         public async Task<ActionResult> Update(int id, [FromBody] MovimentationDTO movimentationDto)
         {
             if (!ModelState.IsValid)
@@ -98,19 +93,19 @@ namespace EstacionamentoAPI.Controllers
             };
 
             await _service.UpdateAsync(movimentation);
-            return NoContent();
+            return Ok("Registro de movimentação atualizado com sucesso");
         }
 
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Remove um registro de movimentação", Description = "Remove um registro de movimentação pelo ID")]
-        [SwaggerResponse(204, "Registro de movimentação removido com sucesso")]
-        [SwaggerResponse(404, "Registro de movimentação não encontrado", typeof(object))]
+        [SwaggerResponse(200, "Registro de movimentação removido com sucesso")]
+        [SwaggerResponse(404, "Registro de movimentação não encontrado")]
         public async Task<ActionResult> Delete(int id)
         {
             try
             {
                 await _service.DeleteAsync(id);
-                return NoContent();
+                return Ok("Registro de movimentação removido com sucesso");
             }
             catch (KeyNotFoundException)
             {

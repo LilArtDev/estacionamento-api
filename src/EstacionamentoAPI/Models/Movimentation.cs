@@ -11,13 +11,13 @@ namespace EstacionamentoAPI.Models
 
         [Required]
         [ForeignKey("Vehicle")]
-        public int VehicleId { get; set; }
+        public required int VehicleId { get; set; }
 
         public Vehicle? Vehicle { get; set; }
 
         [Required]
         [ForeignKey("Establishment")]
-        public int EstablishmentId { get; set; }
+        public required int EstablishmentId { get; set; }
 
         public Establishment? Establishment { get; set; }
 
