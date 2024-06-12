@@ -28,12 +28,12 @@ builder.Services.AddControllers()
         options.InvalidModelStateResponseFactory = ValidationResponseFactory.CreateValidationResponse;
     });
 
-builder.Services.AddScoped<IEstabelecimentoRepository, EstabelecimentoRepository>();
-builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
-builder.Services.AddScoped<IRegistroMovimentacaoRepository, RegistroMovimentacaoRepository>();
-builder.Services.AddScoped<IEstabelecimentoService, EstabelecimentoService>();
-builder.Services.AddScoped<IVeiculoService, VeiculoService>();
-builder.Services.AddScoped<IRegistroMovimentacaoService, RegistroMovimentacaoService>();
+builder.Services.AddScoped<IEstablishmentRepository, EstablishmentRepository>();
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<IMovimentationRepository, MovimentationRepository>();
+builder.Services.AddScoped<IEstablishmentService, EstablishmentService>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
+builder.Services.AddScoped<IMovimentationService, MovimentationService>();
 
 var app = builder.Build();
 

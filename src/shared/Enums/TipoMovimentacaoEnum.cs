@@ -1,9 +1,9 @@
 namespace EstacionamentoAPI.Shared
 {
-    public enum TipoMovimentacao
+    public enum MovimentionType
     {
-        ENTRADA,
-        SAIDA,
+        IN,
+        OUT,
 
     }
 }

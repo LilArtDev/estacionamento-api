@@ -10,19 +10,19 @@ namespace EstacionamentoAPI.Controllers
 {
     [ApiController]
     [Route("api/movimentacao")]
-    public class RegistroMovimentacaoController : ControllerBase
+    public class MovimentationController : ControllerBase
     {
-        private readonly IRegistroMovimentacaoService _service;
+        private readonly IMovimentationService _service;
 
-        public RegistroMovimentacaoController(IRegistroMovimentacaoService service)
+        public MovimentationController(IMovimentationService service)
         {
             _service = service;
         }
 
         [HttpGet]
         [SwaggerOperation(Summary = "Obtém todos os registros de movimentação", Description = "Retorna uma lista de todos os registros de movimentação")]
-        [SwaggerResponse(200, "Lista de registros de movimentação", typeof(IEnumerable<RegistroMovimentacao>))]
-        public async Task<ActionResult<IEnumerable<RegistroMovimentacao>>> GetAll()
+        [SwaggerResponse(200, "Lista de registros de movimentação", typeof(IEnumerable<Movimentation>))]
+        public async Task<ActionResult<IEnumerable<Movimentation>>> GetAll()
         {
             var registros = await _service.GetAllAsync();
             return Ok(registros);
@@ -30,9 +30,9 @@ namespace EstacionamentoAPI.Controllers
 
         [HttpGet("{id}")]
         [SwaggerOperation(Summary = "Obtém um registro de movimentação pelo ID", Description = "Retorna os detalhes de um registro de movimentação específico")]
-        [SwaggerResponse(200, "Detalhes do registro de movimentação", typeof(RegistroMovimentacao))]
+        [SwaggerResponse(200, "Detalhes do registro de movimentação", typeof(Movimentation))]
         [SwaggerResponse(404, "Registro de movimentação não encontrado", typeof(object))]
-        public async Task<ActionResult<RegistroMovimentacao>> GetById(int id)
+        public async Task<ActionResult<Movimentation>> GetById(int id)
         {
             var registro = await _service.GetByIdAsync(id);
             if (registro == null)
@@ -44,9 +44,9 @@ namespace EstacionamentoAPI.Controllers
 
         [HttpPost]
         [SwaggerOperation(Summary = "Adiciona um novo registro de movimentação", Description = "Cria um novo registro de movimentação com base nos dados fornecidos")]
-        [SwaggerResponse(201, "Registro de movimentação criado com sucesso", typeof(RegistroMovimentacao))]
+        [SwaggerResponse(201, "Registro de movimentação criado com sucesso", typeof(Movimentation))]
         [SwaggerResponse(400, "Dados inválidos")]
-        public async Task<ActionResult> Add([FromBody] RegistroMovimentacaoDTO registroMovimentacaoDto)
+        public async Task<ActionResult> Add([FromBody] MovimentationDTO movimentationDto)
         {
             try
             {
@@ -56,17 +56,17 @@ namespace EstacionamentoAPI.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var registroMovimentacao = new RegistroMovimentacao
+                var movimentation = new Movimentation
                 {
-                    VeiculoId = registroMovimentacaoDto.VeiculoId,
-                    EstabelecimentoId = registroMovimentacaoDto.EstabelecimentoId,
-                    DataHora = registroMovimentacaoDto.DataHora,
-                    Tipo = registroMovimentacaoDto.Tipo
+                    VehicleId = movimentationDto.VehicleId,
+                    EstablishmentId = movimentationDto.EstablishmentId,
+                    DateTime = movimentationDto.DateTime,
+                    Type = movimentationDto.Type
                 };
 
 
-                await _service.AddAsync(registroMovimentacao);
-                return CreatedAtAction(nameof(GetById), new { id = registroMovimentacao.Id }, registroMovimentacao);
+                await _service.AddAsync(movimentation);
+                return CreatedAtAction(nameof(GetById), new { id = movimentation.Id }, movimentation);
             }
             catch (BadHttpRequestException error)
             {
@@ -81,23 +81,23 @@ namespace EstacionamentoAPI.Controllers
         [SwaggerOperation(Summary = "Atualiza um registro de movimentação", Description = "Atualiza os dados de um registro de movimentação existente")]
         [SwaggerResponse(204, "Registro de movimentação atualizado com sucesso")]
         [SwaggerResponse(400, "Dados inválidos")]
-        public async Task<ActionResult> Update(int id, [FromBody] RegistroMovimentacaoDTO registroMovimentacaoDto)
+        public async Task<ActionResult> Update(int id, [FromBody] MovimentationDTO movimentationDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var registroMovimentacao = new RegistroMovimentacao
+            var movimentation = new Movimentation
             {
                 Id = id,
-                VeiculoId = registroMovimentacaoDto.VeiculoId,
-                EstabelecimentoId = registroMovimentacaoDto.EstabelecimentoId,
-                DataHora = registroMovimentacaoDto.DataHora,
-                Tipo = registroMovimentacaoDto.Tipo
+                VehicleId = movimentationDto.VehicleId,
+                EstablishmentId = movimentationDto.EstablishmentId,
+                DateTime = movimentationDto.DateTime,
+                Type = movimentationDto.Type
             };
 
-            await _service.UpdateAsync(registroMovimentacao);
+            await _service.UpdateAsync(movimentation);
             return NoContent();
         }
 

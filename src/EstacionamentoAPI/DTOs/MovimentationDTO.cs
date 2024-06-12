@@ -3,18 +3,18 @@ using EstacionamentoAPI.Shared;
 
 namespace EstacionamentoAPI.DTOs
 {
-    public class RegistroMovimentacaoDTO
+    public class MovimentationDTO
     {
         [Required(ErrorMessage = "O ID do veículo é obrigatório")]
-        public int VeiculoId { get; set; }
+        public int VehicleId { get; set; }
 
-        [Required(ErrorMessage = "O ID do estabelecimento é obrigatório")]
-        public int EstabelecimentoId { get; set; }
+        [Required(ErrorMessage = "O ID do establishment é obrigatório")]
+        public int EstablishmentId { get; set; }
 
         [Required(ErrorMessage = "A data e hora são obrigatórias")]
-        public DateTime DataHora { get; set; }
+        public DateTime DateTime { get; set; }
 
         [Required(ErrorMessage = "O tipo de movimentação é obrigatório")]
-        public TipoMovimentacao Tipo { get; set; }
+        public MovimentionType Type { get; set; }
     }
 }

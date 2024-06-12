@@ -22,7 +22,7 @@ namespace estacionamento_api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("EstacionamentoAPI.Models.Estabelecimento", b =>
+            modelBuilder.Entity("EstacionamentoAPI.Models.Establishment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,34 +30,34 @@ namespace estacionamento_api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Cnpj")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Endereco")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Telefone")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("VagasCarros")
+                    b.Property<int>("CarSpaces")
                         .HasColumnType("integer");
 
-                    b.Property<int>("VagasMotos")
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("MotorcycleSpaces")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Telephone")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Estabelecimentos");
+                    b.ToTable("Establishments");
                 });
 
-            modelBuilder.Entity("EstacionamentoAPI.Models.Veiculo", b =>
+            modelBuilder.Entity("EstacionamentoAPI.Models.Movimentation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -65,51 +65,78 @@ namespace estacionamento_api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Cor")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("DataEntrada")
+                    b.Property<DateTime>("DateTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DataSaida")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("EstabelecimentoId")
+                    b.Property<int>("EstablishmentId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Marca")
+                    b.Property<int>("Type")
+                        .HasMaxLength(10)
+                        .HasColumnType("integer");
+
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EstablishmentId");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("Movimentation");
+                });
+
+            modelBuilder.Entity("EstacionamentoAPI.Models.Vehicle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Brand")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Modelo")
+                    b.Property<string>("Color")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Placa")
+                    b.Property<string>("LicensePlate")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Tipo")
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EstabelecimentoId");
-
-                    b.ToTable("Veiculos");
+                    b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("EstacionamentoAPI.Models.Veiculo", b =>
+            modelBuilder.Entity("EstacionamentoAPI.Models.Movimentation", b =>
                 {
-                    b.HasOne("EstacionamentoAPI.Models.Estabelecimento", "Estabelecimento")
+                    b.HasOne("EstacionamentoAPI.Models.Establishment", "Establishment")
                         .WithMany()
-                        .HasForeignKey("EstabelecimentoId")
+                        .HasForeignKey("EstablishmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Estabelecimento");
+                    b.HasOne("EstacionamentoAPI.Models.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Establishment");
+
+                    b.Navigation("Vehicle");
                 });
 #pragma warning restore 612, 618
         }

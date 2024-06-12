@@ -7,9 +7,9 @@ namespace EstacionamentoAPI.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Estabelecimento> Estabelecimentos { get; set; }
-        public DbSet<Veiculo> Veiculos { get; set; }
-        public DbSet<RegistroMovimentacao> RegistroMovimentacao { get; set; }
+        public DbSet<Establishment> Establishments { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Movimentation> Movimentation { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
