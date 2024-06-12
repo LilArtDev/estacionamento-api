@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EstacionamentoAPI.Repositories
 {
-    public class MovimentationRepository : IMovimentationRepository
+    public partial class MovimentationRepository : IMovimentationRepository
     {
         private readonly AppDbContext _context;
 

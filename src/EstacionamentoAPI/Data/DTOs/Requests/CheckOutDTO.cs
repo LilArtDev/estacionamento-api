@@ -3,10 +3,8 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace EstacionamentoAPI.DTOs.Requests
 {
-    public class CheckOut
+    public class CheckOutDto
     {
-        public required int VehicleId { get; set; }
-        public required int EstablishmentId { get; set; }
         public DateTime? DateTime { get; set; }
 
     }

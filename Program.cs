@@ -4,6 +4,8 @@ using EstacionamentoAPI.Repositories.Interfaces;
 using EstacionamentoAPI.Services;
 using EstacionamentoAPI.Services.Interfaces;
 using EstacionamentoAPI.Shared;
+using EstacionamentoAPI.Validators;
+using EstacionamentoAPI.Validators.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -28,12 +30,16 @@ builder.Services.AddControllers()
         options.InvalidModelStateResponseFactory = ValidationResponseFactory.CreateValidationResponse;
     });
 
+//TODO: Modularizar isso, melhorar código
+
 builder.Services.AddScoped<IEstablishmentRepository, EstablishmentRepository>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IMovimentationRepository, MovimentationRepository>();
 builder.Services.AddScoped<IEstablishmentService, EstablishmentService>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IMovimentationService, MovimentationService>();
+
+builder.Services.AddScoped<IMovimentationValidator, MovimentationValidator>();
 
 var app = builder.Build();
 

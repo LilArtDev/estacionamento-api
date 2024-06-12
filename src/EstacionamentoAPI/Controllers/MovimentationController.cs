@@ -53,16 +53,8 @@ namespace EstacionamentoAPI.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var Movimentations = new Movimentations
-                {
-                    VehicleId = checkInDto.VehicleId,
-                    EstablishmentId = checkInDto.EstablishmentId,
-                    CheckInAt = checkInDto.DateTime ?? DateTime.Now,
-                };
-
-
-                await _service.CheckIn(Movimentations);
-                return CreatedAtAction(nameof(GetById), new { id = Movimentations.Id }, Movimentations);
+                await _service.CheckIn(vehicleId: checkInDto.VehicleId, establishmentId: checkInDto.EstablishmentId, dateTime: checkInDto.DateTime ?? DateTime.Now);
+                return CreatedAtAction(nameof(GetById), new { id = 'a' });
             }
             catch (BadHttpRequestException error)
             {
@@ -73,11 +65,11 @@ namespace EstacionamentoAPI.Controllers
             }
         }
 
-        [HttpPost("checkOut")]
+        [HttpPost("checkOut/{movimentationId}")]
         [SwaggerOperation(Summary = "Adiciona um novo registro de movimentação", Description = "Cria um novo registro de movimentação com base nos dados fornecidos")]
         [SwaggerResponse(201, "Registro de movimentação criado com sucesso", typeof(Movimentations))]
-        public async Task<ActionResult> CheckOut([FromBody] CheckInDto checkInDto)
-        {   
+        public async Task<ActionResult> CheckOut([FromRoute] int movimentationId, [FromBody] CheckOutDto checkOutDto)
+        {
             try
             {
                 if (!ModelState.IsValid)
@@ -85,16 +77,8 @@ namespace EstacionamentoAPI.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var Movimentations = new Movimentations
-                {
-                    VehicleId = checkInDto.VehicleId,
-                    EstablishmentId = checkInDto.EstablishmentId,
-                    CheckoutAt = checkInDto.DateTime ?? DateTime.Now,
-                };
-
-
-                await _service.CheckOut(Movimentations);
-                return CreatedAtAction(nameof(GetById), new { id = Movimentations.Id }, Movimentations);
+                await _service.CheckOut(movimentationId, checkOutDto.DateTime ?? DateTime.Now);
+                return CreatedAtAction(nameof(GetById), new { id = 'a' });
             }
             catch (BadHttpRequestException error)
             {

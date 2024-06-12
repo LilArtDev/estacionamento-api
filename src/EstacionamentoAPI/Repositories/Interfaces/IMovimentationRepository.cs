@@ -10,8 +10,8 @@ namespace EstacionamentoAPI.Repositories.Interfaces
         Task<IEnumerable<Movimentations>> GetByEstablishmentIdAsync(int establishmentId);
         Task<IEnumerable<Movimentations>> GetByVehicleIdAsync(int vehicleId);
         Task<Movimentations> GetByIdAsync(int id);
-        Task AddAsync(Movimentations vehicle);
-        Task UpdateAsync(Movimentations vehicle);
+        Task AddAsync(Movimentations movimentation);
+        Task UpdateAsync(Movimentations movimentation);
         Task DeleteAsync(int id);
 
         Task<Movimentations?> GetLastByVehicleId(int vehicleId);
