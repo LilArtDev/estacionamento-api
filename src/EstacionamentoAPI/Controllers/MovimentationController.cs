@@ -1,4 +1,5 @@
 using EstacionamentoAPI.DTOs;
+using EstacionamentoAPI.DTOs.Requests;
 using EstacionamentoAPI.Models;
 using EstacionamentoAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -40,10 +41,10 @@ namespace EstacionamentoAPI.Controllers
             return Ok(registro);
         }
 
-        [HttpPost]
+        [HttpPost("checkIn")]
         [SwaggerOperation(Summary = "Adiciona um novo registro de movimentação", Description = "Cria um novo registro de movimentação com base nos dados fornecidos")]
         [SwaggerResponse(201, "Registro de movimentação criado com sucesso", typeof(Movimentations))]
-        public async Task<ActionResult> Add([FromBody] MovimentationDTO movimentationDto)
+        public async Task<ActionResult> CheckIn([FromBody] CheckInDto checkInDto)
         {
             try
             {
@@ -54,14 +55,13 @@ namespace EstacionamentoAPI.Controllers
 
                 var Movimentations = new Movimentations
                 {
-                    VehicleId = movimentationDto.VehicleId,
-                    EstablishmentId = movimentationDto.EstablishmentId,
-                    DateTime = movimentationDto.DateTime,
-                    Type = movimentationDto.Type
+                    VehicleId = checkInDto.VehicleId,
+                    EstablishmentId = checkInDto.EstablishmentId,
+                    CheckInAt = checkInDto.DateTime ?? DateTime.Now,
                 };
 
 
-                await _service.AddAsync(Movimentations);
+                await _service.CheckIn(Movimentations);
                 return CreatedAtAction(nameof(GetById), new { id = Movimentations.Id }, Movimentations);
             }
             catch (BadHttpRequestException error)
@@ -73,28 +73,38 @@ namespace EstacionamentoAPI.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        [SwaggerOperation(Summary = "Atualiza um registro de movimentação", Description = "Atualiza os dados de um registro de movimentação existente")]
-        [SwaggerResponse(200, "Registro de movimentação atualizado com sucesso")]
-        public async Task<ActionResult> Update(int id, [FromBody] MovimentationDTO movimentationDto)
-        {
-            if (!ModelState.IsValid)
+        [HttpPost("checkOut")]
+        [SwaggerOperation(Summary = "Adiciona um novo registro de movimentação", Description = "Cria um novo registro de movimentação com base nos dados fornecidos")]
+        [SwaggerResponse(201, "Registro de movimentação criado com sucesso", typeof(Movimentations))]
+        public async Task<ActionResult> CheckOut([FromBody] CheckInDto checkInDto)
+        {   
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var Movimentations = new Movimentations
+                {
+                    VehicleId = checkInDto.VehicleId,
+                    EstablishmentId = checkInDto.EstablishmentId,
+                    CheckoutAt = checkInDto.DateTime ?? DateTime.Now,
+                };
+
+
+                await _service.CheckOut(Movimentations);
+                return CreatedAtAction(nameof(GetById), new { id = Movimentations.Id }, Movimentations);
             }
-
-            var Movimentations = new Movimentations
+            catch (BadHttpRequestException error)
             {
-                Id = id,
-                VehicleId = movimentationDto.VehicleId,
-                EstablishmentId = movimentationDto.EstablishmentId,
-                DateTime = movimentationDto.DateTime,
-                Type = movimentationDto.Type
-            };
-
-            await _service.UpdateAsync(Movimentations);
-            return Ok("Registro de movimentação atualizado com sucesso");
+                return BadRequest(new
+                {
+                    message = error.Message
+                });
+            }
         }
+
 
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Remove um registro de movimentação", Description = "Remove um registro de movimentação pelo ID")]

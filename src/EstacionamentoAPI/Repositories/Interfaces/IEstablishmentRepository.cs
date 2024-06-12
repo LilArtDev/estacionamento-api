@@ -1,3 +1,4 @@
+using EstacionamentoAPI.DTOs.Responses;
 using EstacionamentoAPI.Models;
 
 namespace EstacionamentoAPI.Repositories.Interfaces
@@ -9,5 +10,7 @@ namespace EstacionamentoAPI.Repositories.Interfaces
         Task AddAsync(Establishment establishment);
         Task UpdateAsync(Establishment establishment);
         Task DeleteAsync(int id);
+
+        Task<EstablishmentStatus> GetEstablishmentStatusByIdAsync(int id);
     }
 }

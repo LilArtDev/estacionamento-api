@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace EstacionamentoAPI.DTOs
+namespace EstacionamentoAPI.DTOs.Requests
 {
     [SwaggerSchema(Description = "DTO para criar ou atualizar um veículo")]
-    public class VehicleDTO
+    public class CreateOrUpdateVehicleDTO
     {
         [Required(ErrorMessage = "A marca é obrigatória")]
         [StringLength(50, ErrorMessage = "A marca deve ter no máximo 50 caracteres")]

@@ -55,8 +55,8 @@ namespace estacionamento_api.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     vehicle_id = table.Column<int>(type: "integer", nullable: false),
                     establishment_id = table.Column<int>(type: "integer", nullable: false),
-                    date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    type = table.Column<int>(type: "integer", maxLength: 10, nullable: false)
+                    check_in_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    checkout_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {

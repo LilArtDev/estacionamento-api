@@ -24,11 +24,11 @@ namespace EstacionamentoAPI.Repositories
         }
         public async Task<IEnumerable<Movimentations>> GetByVehicleIdAsync(int vehicleId)
         {
-            return await _context.Movimentations.Where(Movimentations => Movimentations.VehicleId.Equals(vehicleId)).ToListAsync();
+            return await _context.Movimentations.Where(movimentations => movimentations.VehicleId.Equals(vehicleId)).ToListAsync();
         }
         public async Task<IEnumerable<Movimentations>> GetByEstablishmentIdAsync(int movimentationId)
         {
-            return await _context.Movimentations.Where(Movimentations => Movimentations.EstablishmentId.Equals(movimentationId)).ToListAsync();
+            return await _context.Movimentations.Where(movimentations => movimentations.EstablishmentId.Equals(movimentationId)).ToListAsync();
         }
 
         public async Task<Movimentations> GetByIdAsync(int id)
@@ -57,5 +57,14 @@ namespace EstacionamentoAPI.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<Movimentations?> GetLastByVehicleId(int vehicleId)
+        {
+            return await _context.Movimentations
+            .Where(movimentation => movimentation.VehicleId == vehicleId)
+            .OrderByDescending(movimentations => movimentations.CheckInAt)
+            .FirstOrDefaultAsync();
+        }
+
     }
 }

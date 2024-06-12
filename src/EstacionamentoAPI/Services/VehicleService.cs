@@ -50,5 +50,9 @@ namespace EstacionamentoAPI.Services
             var vehicle = await _repository.GetByIdAsync(id);
             return vehicle != null;
         }
+        public async Task<string?> GetVehicleTypeByIdAsync(int id)
+        {
+            return await _repository.GetVehicleTypeByIdAsync(id);
+        }
     }
 }

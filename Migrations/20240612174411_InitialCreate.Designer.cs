@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace estacionamento_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240612163430_InitialCreate")]
+    [Migration("20240612174411_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -77,18 +77,17 @@ namespace estacionamento_api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateTime")
+                    b.Property<DateTime>("CheckInAt")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("date_time");
+                        .HasColumnName("check_in_at");
+
+                    b.Property<DateTime?>("CheckoutAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("checkout_at");
 
                     b.Property<int>("EstablishmentId")
                         .HasColumnType("integer")
                         .HasColumnName("establishment_id");
-
-                    b.Property<int>("Type")
-                        .HasMaxLength(10)
-                        .HasColumnType("integer")
-                        .HasColumnName("type");
 
                     b.Property<int>("VehicleId")
                         .HasColumnType("integer")

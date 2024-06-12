@@ -1,3 +1,4 @@
+using EstacionamentoAPI.DTOs.Responses;
 using EstacionamentoAPI.Models;
 
 namespace EstacionamentoAPI.Services.Interfaces
@@ -5,11 +6,12 @@ namespace EstacionamentoAPI.Services.Interfaces
     public interface IEstablishmentService
     {
         Task<IEnumerable<Establishment>> GetAllAsync();
-        Task<Establishment> GetByIdAsync(int id);
+        Task<Establishment> GetByIdAsync(int establishmentId);
         Task AddAsync(Establishment establishment);
-        Task UpdateAsync(int id, Establishment establishment);
-        Task DeleteAsync(int id);
+        Task UpdateAsync(int establishmentId, Establishment establishment);
+        Task DeleteAsync(int establishmentId);
 
-        Task<bool> CheckEstablishmentExistsByIdAsync(int id);
+        Task<bool> CheckEstablishmentExistsByIdAsync(int establishmentId);
+        Task<EstablishmentStatus> GetEstablishmentStatusByIdAsync(int establishmentId);
     }
 }

@@ -43,20 +43,37 @@ namespace EstacionamentoAPI.Services
         }
 
 
-        public async Task AddAsync(Movimentations Movimentations)
+        public async Task CheckIn(Movimentations movimentation)
         {
-            var movimentacaoError = await _validateMovimentation(Movimentations);
+
+            var movimentacaoError = await _validateMovimentation(movimentation);
             if (movimentacaoError != null) throw movimentacaoError;
 
-            await _repository.AddAsync(Movimentations);
+            var lastVehicleCheckin = await _repository.GetLastByVehicleId(movimentation.VehicleId);
+
+            bool doesVehicleHaveActiveCheckin = lastVehicleCheckin != null && lastVehicleCheckin?.CheckoutAt == null;
+            if (doesVehicleHaveActiveCheckin) throw new BadHttpRequestException("O veículo possui um checkIn ativo");
+
+            var establishmentStatus = await _establishmentService.GetEstablishmentStatusByIdAsync(movimentation.EstablishmentId);
+            //TODO: Separar essa lógica em classes diferentes Carro/Moto
+            var vehicleType = await _vehicleService.GetVehicleTypeByIdAsync(movimentation.VehicleId);
+
+            if (vehicleType == "Carro" && establishmentStatus.AvailableCarSpaces == 0) throw new BadHttpRequestException("O estabelecimento não tem vaga para o veículo");
+            if (vehicleType == "Moto" && establishmentStatus.AvailableMotorcycleSpaces == 0) throw new BadHttpRequestException("O estabelecimento não tem vaga para o veículo");
+
+            await _repository.AddAsync(movimentation);
         }
 
-        public async Task UpdateAsync(Movimentations Movimentations)
+        public async Task CheckOut(Movimentations movimentation)
         {
-            var movimentacaoError = await _validateMovimentation(Movimentations);
+            var movimentacaoError = await _validateMovimentation(movimentation);
             if (movimentacaoError != null) throw movimentacaoError;
 
-            await _repository.UpdateAsync(Movimentations);
+            //TODO: Ver se existe o checkin estabelecimento tem vaga
+            //TODO: Ver se o carro ja realizou checkout
+
+
+            await _repository.UpdateAsync(movimentation);
         }
 
         public async Task DeleteAsync(int id)
@@ -65,14 +82,14 @@ namespace EstacionamentoAPI.Services
         }
 
 
-        private async Task<BadHttpRequestException?> _validateMovimentation(Movimentations Movimentations)
+        private async Task<BadHttpRequestException?> _validateMovimentation(Movimentations movimentation)
         {
             string? badRequestmessage = null;
 
-            var doesVehicleExists = await _vehicleService.CheckVehicleExistsByIdAsync(Movimentations.VehicleId);
+            var doesVehicleExists = await _vehicleService.CheckVehicleExistsByIdAsync(movimentation.VehicleId);
             if (!doesVehicleExists) badRequestmessage = "O Veículo não existe";
 
-            var doesEstablishmentExists = await _establishmentService.CheckEstablishmentExistsByIdAsync(Movimentations.EstablishmentId);
+            var doesEstablishmentExists = await _establishmentService.CheckEstablishmentExistsByIdAsync(movimentation.EstablishmentId);
             if (!doesEstablishmentExists) badRequestmessage = "O Estabelecimento não existe";
 
             if (badRequestmessage != null)

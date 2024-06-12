@@ -11,5 +11,6 @@ namespace EstacionamentoAPI.Services.Interfaces
         Task DeleteAsync(int id);
 
         Task<bool> CheckVehicleExistsByIdAsync(int vehicleId);
+        Task<string?> GetVehicleTypeByIdAsync(int vehicleId);
     }
 }

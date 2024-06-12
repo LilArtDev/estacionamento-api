@@ -9,5 +9,6 @@ namespace EstacionamentoAPI.Repositories.Interfaces
         Task AddAsync(Vehicle vehicle);
         Task UpdateAsync(Vehicle vehicle);
         Task DeleteAsync(int id);
+        Task<string?> GetVehicleTypeByIdAsync(int id);
     }
 }

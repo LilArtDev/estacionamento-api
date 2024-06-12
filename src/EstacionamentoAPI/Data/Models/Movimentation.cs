@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EstacionamentoAPI.Shared;
 
 namespace EstacionamentoAPI.Models
 {
@@ -22,10 +21,8 @@ namespace EstacionamentoAPI.Models
         public Establishment? Establishment { get; set; }
 
         [Required]
-        public DateTime DateTime { get; set; }
+        public DateTime CheckInAt { get; set; }
 
-        [Required]
-        [StringLength(10)]
-        public required MovimentionType Type { get; set; }
+        public DateTime? CheckoutAt { get; set; }
     }
 }

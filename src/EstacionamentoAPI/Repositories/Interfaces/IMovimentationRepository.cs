@@ -13,5 +13,7 @@ namespace EstacionamentoAPI.Repositories.Interfaces
         Task AddAsync(Movimentations vehicle);
         Task UpdateAsync(Movimentations vehicle);
         Task DeleteAsync(int id);
+
+        Task<Movimentations?> GetLastByVehicleId(int vehicleId);
     }
 }

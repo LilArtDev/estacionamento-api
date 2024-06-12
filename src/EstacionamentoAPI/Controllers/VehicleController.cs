@@ -1,4 +1,4 @@
-using EstacionamentoAPI.DTOs;
+using EstacionamentoAPI.DTOs.Requests;
 using EstacionamentoAPI.Models;
 using EstacionamentoAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +44,7 @@ namespace EstacionamentoAPI.Controllers
         [HttpPost]
         [SwaggerOperation(Summary = "Adiciona um novo veículo", Description = "Cria um novo veículo com base nos dados fornecidos")]
         [SwaggerResponse(201, "Veículo criado com sucesso", typeof(Vehicle))]
-        public async Task<ActionResult> Add([FromBody] VehicleDTO vehicleDto)
+        public async Task<ActionResult> Add([FromBody] CreateOrUpdateVehicleDTO vehicleDto)
         {
             if (!ModelState.IsValid)
             {
@@ -67,7 +67,7 @@ namespace EstacionamentoAPI.Controllers
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Atualiza um veículo", Description = "Atualiza os dados de um veículo existente")]
         [SwaggerResponse(204, "Veículo veículo com sucesso")]
-        public async Task<ActionResult> Update([FromRoute] int id, [FromBody] VehicleDTO vehicleDto)
+        public async Task<ActionResult> Update([FromRoute] int id, [FromBody] CreateOrUpdateVehicleDTO vehicleDto)
         {
             try
             {

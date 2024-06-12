@@ -1,3 +1,4 @@
+using EstacionamentoAPI.DTOs.Responses;
 using EstacionamentoAPI.Models;
 using EstacionamentoAPI.Repositories.Interfaces;
 using EstacionamentoAPI.Services.Interfaces;
@@ -58,6 +59,10 @@ namespace EstacionamentoAPI.Services
             var establishment = await _repository.GetByIdAsync(id);
 
             return establishment != null;
+        }
+        public async Task<EstablishmentStatus> GetEstablishmentStatusByIdAsync(int id)
+        {
+            return await _repository.GetEstablishmentStatusByIdAsync(id);
         }
     }
 }

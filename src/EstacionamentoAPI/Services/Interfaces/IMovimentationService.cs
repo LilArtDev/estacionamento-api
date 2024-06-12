@@ -8,8 +8,8 @@ namespace EstacionamentoAPI.Services.Interfaces
         Task<IEnumerable<Movimentations>> GetByEstablishmentIdAsync(int establishmentId);
         Task<IEnumerable<Movimentations>> GetByVehicleIdAsync(int vehicleId);
         Task<Movimentations> GetByIdAsync(int id);
-        Task AddAsync(Movimentations Movimentations);
-        Task UpdateAsync(Movimentations Movimentations);
+        Task CheckIn(Movimentations Movimentations);
+        Task CheckOut(Movimentations Movimentations);
         Task DeleteAsync(int id);
     }
 }

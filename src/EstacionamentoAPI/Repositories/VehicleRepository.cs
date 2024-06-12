@@ -19,9 +19,9 @@ namespace EstacionamentoAPI.Repositories
             return await _context.Vehicles.ToListAsync();
         }
 
-        public async Task<Vehicle> GetByIdAsync(int id)
+        public async Task<Vehicle> GetByIdAsync(int vehicleId)
         {
-            return await _context.Vehicles.FindAsync(id);
+            return await _context.Vehicles.FindAsync(vehicleId);
         }
 
         public async Task AddAsync(Vehicle vehicle)
@@ -36,14 +36,20 @@ namespace EstacionamentoAPI.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(int vehicleId)
         {
-            var vehicle = await _context.Vehicles.FindAsync(id);
+            var vehicle = await _context.Vehicles.FindAsync(vehicleId);
             if (vehicle != null)
             {
                 _context.Vehicles.Remove(vehicle);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<string?> GetVehicleTypeByIdAsync(int vehicleId)
+        {
+            var vehicle = await _context.Vehicles.FindAsync(vehicleId);
+            return vehicle?.Type;
         }
     }
 }
